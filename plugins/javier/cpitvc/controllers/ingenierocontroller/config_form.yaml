@@ -1,0 +1,10 @@
+name: IngenieroController
+form: $/javier/cpitvc/models/ingeniero/fields.yaml
+modelClass: Javier\Cpitvc\Models\Ingeniero
+defaultRedirect: javier/cpitvc/ingenierocontroller
+create:
+    redirect: 'javier/cpitvc/ingenierocontroller/update/:id'
+    redirectClose: javier/cpitvc/ingenierocontroller
+update:
+    redirect: javier/cpitvc/ingenierocontroller
+    redirectClose: javier/cpitvc/ingenierocontroller

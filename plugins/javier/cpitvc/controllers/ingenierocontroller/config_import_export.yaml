@@ -1,0 +1,14 @@
+import:
+    title: Importar ingenieros
+    modelClass: Javier\Cpitvc\Models\IngenieroImport
+    list: $/javier/cpitvc/models/ingeniero/ImportColumns.yaml
+    redirect: /javier/cpitvc/ingenierocontroller
+
+
+export:
+    useList: true
+    fileName: ingenieros.csv    
+    title: Exportar Ingenieros
+    modelClass: Javier\Cpitvc\Models\IngenieroExport
+    list: $/javier/cpitvc/models/ingeniero/columns.yaml
+    redirect: javier/cpitvc/ingeniero

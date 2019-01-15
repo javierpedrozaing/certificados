@@ -1,0 +1,59 @@
+columns:
+    nombres:
+        label: Nombres
+        type: text
+        searchable: true
+    apellidos:
+        label: Apellidos
+        type: text
+    matriculado:
+        label: Matriculado
+        type: text
+    identificacion:
+        label: Identificación
+        type: number
+    numeromatricula:
+        label: Matricula
+        type: text
+    resolucion_nacional:
+        label: 'Res nacional'
+        type: text
+    fecha_resolucion_acional:
+        label: 'Fecha Res. Nacional'
+        type: date
+    resolucion_seccional:
+        label: 'Res Seccional'
+        type: text
+    fecha_resolucion_seccional:
+        label: 'Fecha Res. Seccional'
+        type: date
+    tarjeta:
+        label: Tarjeta
+        type: text
+    estado:
+        label: Estado
+        type: text
+    direccionpersona:
+        label: Dirección
+        type: text
+    telefono:
+        label: Teléfono
+        type: text
+    celular:
+        label: Celular
+        type: number
+    email:
+        label: Email
+        type: text
+    web:
+        label: Web
+        type: text
+    ciudad_id:
+        label: Ciudad
+        type: text
+    titulo_id:
+        label: Título
+        type: text
+    universidad_id:
+        label: Universidad
+        type: text

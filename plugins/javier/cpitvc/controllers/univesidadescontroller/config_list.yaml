@@ -1,0 +1,12 @@
+list: $/javier/cpitvc/models/universidad/columns.yaml
+modelClass: Javier\Cpitvc\Models\Universidad
+title: UnivesidadesController
+noRecordsMessage: 'backend::lang.list.no_records'
+showSetup: true
+showCheckboxes: true
+recordsPerPage: 20
+toolbar:
+    buttons: list_toolbar
+    search:
+        prompt: 'backend::lang.list.search_prompt'
+recordUrl: 'javier/cpitvc/univesidadescontroller/update/:id'

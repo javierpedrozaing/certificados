@@ -1,0 +1,110 @@
+title = "Conflicto"
+url = "/conflicto"
+layout = "juntosmovemos"
+description = "Conflicto Landing Description"
+is_hidden = 0
+
+[session]
+security = "user"
+redirect = "/"
+==
+<?php
+use Quadi\Juntosmovemos\Models\ConfianzaLanding;
+use Quadi\Juntosmovemos\Models\UserFormData;
+
+function onStart()
+{
+    $this['ConfianzaLanding'] = ConfianzaLanding::get();
+    $this['sessionvalue'] = Session::get('formredirection');
+
+	if($this['user']){
+	 $current_user_id = $this['user']->id;
+	 $this['userFormData'] = UserFormData::where('user_id', $current_user_id)->get();
+	}
+}
+
+function onGetPopupData(){
+    $recId = $_POST['recId'];
+    $this['popupData'] = ConfianzaLanding::find($recId);
+    //print_r($this['popupData']->attributes);exit;
+}
+?>
+==
+<div id="content">
+    <section class="container">
+        <!-- <div class="top-content text-center">
+            <p>Si es la primera vez que ingresas a la plataforma haz click aquí.</p>
+            <a href="{{ url('/form') }}" class="button-style">Responder el cuestionario</a>
+        </div> -->
+        <!--{% if sessionvalue == '' %}
+        <div class="top-content text-center">
+            <p>Si es la primera vez que ingresas a la plataforma haz click aquí.</p>
+            <a href="{{ url('/form') }}" class="button-style">Responder el cuestionario</a>
+        </div>
+        {% endif %}
+        {% if sessionvalue == 'confianza' %}
+        <div class="top-content text-center">
+            <p>Lorem Ipsum es simplemente texto ficticio de la industria de impresión y composición tipográfica.</p>
+            <a href="{{ url('/second-form') }}" class="button-style">Responder el cuestionario</a>
+        </div>
+        {% endif %}-->
+        <div class="page-title">
+            <h1>{{ this.page.title }}</h1>
+            <p>{{ this.page.description }}</p>
+        </div>
+        <div class="trust-content">
+            <div class="row">
+                {% for data in ConfianzaLanding %}
+                <a {% if data.content_type == 'article' %} target="_blank" {% endif %} {% if data.content_type == 'article' %}href="{{ data.article_link }}"{% endif %} {% if data.content_type == 'bigimage' or data.content_type == 'video'%}onclick="getPopupData({{ data.id }})"{% endif %}>
+                    <div class="col-sm-3 col-xs-6">
+                        <div class="trust-inner">
+                            <img src="{{ data.image|media }}" class="img-responsive"/>
+                            <div class="inner-text">
+                                <p>{{ data.short_desc|raw }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+                <div id="popup">
+                    {% partial 'ConfianzaLanding/popup' %}
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+  <!-- Modal -->
+  <div class="modal fade" id="confrompage" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal"></button>
+        <div class="modal-body">
+          <p>¡Hola!<br/>
+            Para empezar a consumir el contenido del programa debes contestar unas breves preguntas.</p>
+        </div>
+        <a href="{{ url('/second-form') }}" class="button-style">Responder el cuestionario</a>
+      </div>
+      
+    </div>
+  </div>
+  
+{{ form_ajax('onGetPopupData',{update:{'ConfianzaLanding/popup':'#popup'},id:'popupdata'}) }}
+    <input type="hidden" name="recId" id="recId" value=""/>
+{{ form_close() }}
+
+<script type="text/javascript">
+    function getPopupData(id){
+        $('#recId').val(id);
+        $('#popupdata').submit();
+        setTimeout(function(){ 
+            $('#myModal').modal('show');
+        }, 2000);
+    }
+    $(window).on('load',function(){
+		{% if userFormData|length == 0 %}
+    	    $('#confrompage').modal('show');
+        {% endif %}
+    });
+</script>

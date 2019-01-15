@@ -1,0 +1,729 @@
+title = "Form"
+url = "/form"
+layout = "juntosmovemos"
+is_hidden = 0
+
+[session]
+security = "user"
+redirect = "/"
+[account]
+==
+<?
+use Quadi\Juntosmovemos\Models\UserFormData;
+function onStart(){
+    /*$sessionvalue = Session::get('formredirection');
+    if( $sessionvalue == 'confianza'){
+        return redirect('confianza');
+    }*/
+    $user = $this->account->user();    
+    
+    if(!empty($user)){
+        $userData = UserFormData::where('user_id', '=', $user->id)->where('form_id', '=', 7)->first();
+    }else{
+    return redirect('/');
+    }
+
+    if(!empty($userData)){
+        return redirect('confianza');
+    }
+}
+function onLoginTrackForm1(){
+    $current_user_id = $this['user']->id;
+    $form1Id = $_POST['form1Id'];
+    $userData = UserFormData::where('user_id', '=', $current_user_id)->where('form_id', '=', $form1Id)->first();
+    //$userData = UserFormData::where('user_id', '=', $current_user_id)->get();
+    
+        if(!empty($_POST['form1Id'])){
+            $userformdata = new UserFormData();
+            $userformdata->user_id = $current_user_id;
+            $userformdata->form_id = $form1Id;
+            $userformdata->save();
+        }
+        return [
+            'success' => 'success',
+        ];
+    
+    exit;
+}
+function onLoginTrackForm2(){
+    $current_user_id = $this['user']->id;
+    $form1Id = $_POST['form1Id'];
+    $userData = UserFormData::where('user_id', '=', $current_user_id)->where('form_id', '=', $form1Id)->first();
+    //$userData = UserFormData::where('user_id', '=', $current_user_id)->get();
+    
+        if(!empty($_POST['form1Id'])){
+            $userformdata = new UserFormData();
+            $userformdata->user_id = $current_user_id;
+            $userformdata->form_id = $form1Id;
+            $userformdata->save();
+        }
+        return [
+            'success' => 'success',
+        ];
+    
+    exit;
+}
+?>
+==
+
+<script>
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-83711441-3', 'auto');
+    ga('send', 'pageview');
+</script>
+<script>
+    dataLayer = [];
+</script>
+<script type="text/javascript">
+    /** This section is only needed once per page if manually copying **/
+    if (typeof MauticSDKLoaded == 'undefined') {
+        var MauticSDKLoaded = true;
+        var head            = document.getElementsByTagName('head')[0];
+        var script          = document.createElement('script');
+        script.type         = 'text/javascript';
+        script.src          = 'https://people.wsuite.com/78221/media/js/mautic-form.js';
+        script.onload       = function() {
+            MauticSDK.onLoad();
+        };
+        head.appendChild(script);
+        var MauticDomain = 'https://people.wsuite.com/78221';
+        var MauticLang   = {
+            'submittingMessage': "Please wait..."
+        }
+    }
+</script>
+<style type="text/css" scoped>
+
+    .mauticform_wrapper { max-width: 600px; margin: 10px auto; }
+    .mauticform-innerform {}
+    .mauticform-post-success {}
+    .mauticform-name { font-weight: bold; font-size: 1.5em; margin-bottom: 3px; }
+    .mauticform-description { margin-top: 2px; margin-bottom: 10px; }
+    .mauticform-error { margin-bottom: 10px; color: red; }
+    .mauticform-message { margin-bottom: 10px;color: green; }
+    .mauticform-row { display: block; margin-bottom: 20px; }
+    .mauticform-label { font-size: 1.1em; display: block; font-weight: bold; margin-bottom: 5px; }
+    .mauticform-row.mauticform-required .mauticform-label:after { color: #e32; content: " *"; display: inline; }
+    .mauticform-helpmessage { display: block; font-size: 0.9em; margin-bottom: 3px; }
+    .mauticform-errormsg { display: block; color: red; margin-top: 2px; }
+    .mauticform-selectbox, .mauticform-input, .mauticform-textarea { width: 100%; padding: 0.5em 0.5em; border: 1px solid #CCC; background: #fff; box-shadow: 0px 0px 0px #fff inset; border-radius: 4px; box-sizing: border-box; }
+    .mauticform-checkboxgrp-row {}
+    .mauticform-checkboxgrp-label { font-weight: normal; }
+    .mauticform-checkboxgrp-checkbox {}
+    .mauticform-radiogrp-row {}
+    .mauticform-radiogrp-label { font-weight: normal; }
+    .mauticform-radiogrp-radio {}
+    .mauticform-button-wrapper .mauticform-button.btn-default, .mauticform-pagebreak-wrapper .mauticform-pagebreak.btn-default { /* color: #ffffff;background-color: #f9b715;width: 135px;border-radius: 20px; */ background: #f9b715;border: none;font-family: 'Nunito', sans-serif;font-size: 12px;color: #ffffff;border-radius: 16px;min-width: 144px;padding: 0 20px;height: 32px;margin: 20px auto;float: none;text-align: center;display: block;text-transform: uppercase;}
+    .mauticform-button-wrapper .mauticform-button, .mauticform-pagebreak-wrapper .mauticform-pagebreak { display: inline-block;margin-bottom: 0;font-weight: 600;text-align: center;vertical-align: middle;cursor: pointer;background-image: none;border: none;white-space: nowrap;padding: 9px 10px;font-size: 12px;line-height: 1.3856;border-radius: 3px;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
+    .mauticform-button-wrapper .mauticform-button.btn-default[disabled], .mauticform-pagebreak-wrapper .mauticform-pagebreak.btn-default[disabled] { background-color: #ffffff; border-color: #dddddd; opacity: 0.75; cursor: not-allowed; }
+    .mauticform-pagebreak-wrapper .mauticform-button-wrapper {  display: inline; }
+   
+</style>
+
+<div id="content">
+    <div class="container">
+        <div class="page-head">
+            <h1>Confianza</h1>
+            <span class="message"></span>
+        </div>
+    </div>
+    <section class="form-section min-heights">
+        <div class="container">
+            <div id="mauticform_wrapper_trustformprogramanewplus" class="mauticform_wrapper">
+                <form autocomplete="off" role="form" method="post" action="https://people.wsuite.com/78221/form/submit?formId=7" id="mauticform_trustformprogramanewplus"  data-mautic-form="trustformprogramanewplus" enctype="multipart/form-data">
+                    <!-- <div class="mauticform-error" id="mauticform_trustformprogramanewplus_error"></div>
+                    <div class="mauticform-message" id="mauticform_trustformprogramanewplus_message"></div> -->
+                    <div class="mauticform-innerform">
+                        <div class="numbers">
+                            <span class="current">1</span>/<span class="total">3</span>
+                        </div>                            
+                        <div class="mauticform-page-wrapper mauticform-page-1" data-mautic-form-page="1">
+                            <input id="mauticform_input_trustformprogramaplus_email" name="mauticform[email]" value="{{ user.email }}" class="mauticform-hidden" type="hidden" />
+                            <ul class="questions">
+                                <li class="question active question-1">
+                                    <div id="mauticform_trustformprogramanewplus_nombre"  data-validate="nombre" data-validation-type="text" class="mauticform-row mauticform-text mauticform-field-1 mauticform-required">
+                                        <label id="mauticform_label_trustformprogramanewplus_nombre" for="mauticform_input_trustformprogramanewplus_nombre" class="mauticform-label">Nombre</label>
+                                        <input autocomplete="off" id="mauticform_input_trustformprogramanewplus_nombre" name="mauticform[nombre]" value="" placeholder="Nombre" class="mauticform-input first-step validation" type="text"/>
+                                        <span class="mauticform-errormsg" style="display: none;">por favor ingrese el nombre</span>
+                                    </div>            
+                                    <div id="mauticform_trustformprogramanewplus_apellidos"  data-validate="apellidos" data-validation-type="text" class="mauticform-row mauticform-text mauticform-field-2 mauticform-required">
+                                        <label id="mauticform_label_trustformprogramanewplus_apellidos" for="mauticform_input_trustformprogramanewplus_apellidos" class="mauticform-label">Apellidos</label>
+                                        <input autocomplete="off" id="mauticform_input_trustformprogramanewplus_apellidos" name="mauticform[apellidos]" value="" placeholder="Apellidos" class="mauticform-input first-step validation" type="text"/>
+                                        <span class="mauticform-errormsg" style="display: none;">por favor ingrese el apellido</span>
+                                    </div>    
+                                    <div id="mauticform_trustformprogramanewplus_celular1"  data-validate="celular1" data-validation-type="tel" class="mauticform-row mauticform-tel mauticform-field-3 mauticform-required numberinput">
+                                        <label id="mauticform_label_trustformprogramanewplus_celular1" for="mauticform_input_trustformprogramanewplus_celular1" class="mauticform-label">Celular</label>
+                                        <input autocomplete="off" id="mauticform_input_trustformprogramanewplus_celular1" name="mauticform[celular1]" value="" placeholder="Celular" class="mauticform-input first-step validation" type="text" maxlength="10" minlength="10"/>
+                                        <span class="mauticform-errormsg" style="display: none;">por favor ingrese el número de celular</span>
+                                    </div>
+    
+                                    <div id="mauticform_trustformprogramanewplus_correo_empresarial"  data-validate="correo_empresarial" data-validation-type="email" class="mauticform-row mauticform-email mauticform-field-4 mauticform-required">
+                                        <label id="mauticform_label_trustformprogramanewplus_correo_empresarial" for="mauticform_input_trustformprogramanewplus_correo_empresarial" class="mauticform-label">Correo empresarial</label>
+                                        <input autocomplete="off" id="mauticform_input_trustformprogramanewplus_correo_empresarial" name="mauticform[correo_empresarial]" value="" placeholder="Correo empresarial" class="mauticform-input first-step validation" type="email"/>
+                                        <span class="mauticform-errormsg" style="display: none;">por favor ingrese el correo de la empresa</span>
+                                    </div>
+                                     <div id="mauticform_trustformprogramanewplus_cargo1"  data-validate="cargo1" data-validation-type="text" class="mauticform-row mauticform-text mauticform-field-5 mauticform-required">
+                <label id="mauticform_label_trustformprogramanewplus_cargo1" for="mauticform_input_trustformprogramanewplus_cargo1" class="mauticform-label">Cargo</label>
+                <input id="mauticform_input_trustformprogramanewplus_cargo1" name="mauticform[cargo1]" value="" class="mauticform-input first-step validation" type="text" />
+                <span class="mauticform-errormsg" style="display: none;">Por favor ingrese el rol</span>
+            </div>
+                                </li>                                    
+                                <li class="question question-2">
+                                    <div id="mauticform_trustformprogramanewplus_abvierta_del_formulario"  data-validate="abvierta_del_formulario" data-validation-type="textarea" class="mauticform-row mauticform-text mauticform-field-6 mauticform-required">
+                                        <label id="mauticform_label_trustformprogramanewplus_abvierta_del_formulario" for="mauticform_input_trustformprogramanewplus_abvierta_del_formulario" class="mauticform-label">¿Por qué te gustaría participar en este proyecto?</label>
+                                        <textarea id="mauticform_input_trustformprogramanewplus_abvierta_del_formulario" name="mauticform[abvierta_del_formulario]" placeholder="Escribe tu respuesta..." class="mauticform-textarea validation second-step"></textarea>
+                                        <span class="mauticform-errormsg" style="display: none;">Por favor seleccione la pregunta</span>
+                                    </div>
+                                </li>                                                                                
+                                <li class="question question-3">
+                                    <div id="mauticform_trustformprogramanewplus_abvierta_del_formulario1"  data-validate="abvierta_del_formulario1" data-validation-type="textarea" class="mauticform-row mauticform-text mauticform-field-7 mauticform-required">
+                                        <label id="mauticform_label_trustformprogramanewplus_abvierta_del_formulario1" for="mauticform_input_trustformprogramanewplus_abvierta_del_formulario1" class="mauticform-label">¿Qué puedes aportar a este proyecto, según tus conocimientos?</label>
+                                        <textarea id="mauticform_input_trustformprogramanewplus_abvierta_del_formulario1" name="mauticform[abvierta_del_formulario1]" placeholder="Escribe tu respuesta..." class="mauticform-textarea validation"></textarea>
+                                        <span class="mauticform-errormsg" style="display: none;">Por favor seleccione la pregunta</span>
+                                    </div>                                   
+                                    <div id="mauticform_trustformprogramanewplus_cargo"  data-validate="cargo" data-validation-type="select" data-validate-multiple="true" class="mauticform-row mauticform-select mauticform-field-5 mauticform-required">
+                                        <label id="mauticform_label_trustformprogramanewplus_cargo" for="mauticform_input_trustformprogramanewplus_cargo" class="mauticform-label">Rol que quisieras desempeñar en el proyecto</label>
+                                        <select id="mauticform_input_trustformprogramanewplus_cargo" name="mauticform[cargo][]" value="" class="mauticform-selectbox validation">
+                                            <option value="">Seleccionar cargo</option>
+                                            <option value="ROL CONTENIDOS">ROL CONTENIDOS</option>
+                                            <option value="ROL BEG">ROL BEG</option>
+                                            <option value="ROL GENERACIÓN DEMANDA">ROL GENERACIÓN DEMANDA</option>
+                                            <option value="ROL UX">ROL UX</option>
+                                            <option value="ROL DIGITAL">ROL DIGITAL</option>
+                                        </select>
+                                        <span class="mauticform-errormsg" style="display: none;">Por favor seleccione el rol</span>
+                                    </div>
+
+                                    <div id="rol_contenidos" class="cargo_div" style="display:none"> Esta persona será la encargada de asesorar y acompañar toda la definición creativa y la ejecución del contenido. Tiene un rol muy importante en la creatividad, en el frente de contenidos y en la producción para lograr una  buena ejecución.  </div>
+                                    <div id="rol_beg" class="cargo_div" style="display:none"> Esta persona tiene un rol clave en el frente de PM y en la definición de contenidos pues deberá canalizar todas las necesiades de cara a este segmento y velar porque se ejecuten las actividades dentro de los tiempos. Así mismo, apoyar la definición  y ejecución del contenido para lograr hablarle de la mejor manera a este segmento.  </div>
+                                    <div id="rol_demanda" class="cargo_div" style="display:none"> Esta persona será la responsable de toda la planeación, negociación de pauta y acompañará la definición de contenidos optimos con base en su conocimiento de los diferentes formatos. Es el puente entre los aliados y el equipo base.  </div>
+                                     <div id="rol_ux" class="cargo_div" style="display:none"> Esta persona es la reponsable de acompañar toda la redefinición del sitio de la Escuela de la Sostenibilidad desde el diseño web y la experiencia de susuario. Debe coordinar esfuerzos y necesidades entre Bancolombia, Quadi y Sancho.  </div>
+                                     <div id="rol_digital" class="cargo_div" style="display:none"> Esta persona es la responsable de crear, coordinar y orquestar toda la estrategia digital propia del proyecto, actuando como corrdinador entre el contenido orgánico y la pauta.  </div>
+                                    <div id="mauticform_trustformprogramanewplus_enviar"  class="mauticform-row mauticform-button-wrapper mauticform-field-8">
+                                        <button type="submit" name="mauticform[enviar]" id="mauticform_input_trustformprogramanewplus_enviar" name="mauticform[enviar]" value="" class="mauticform-button btn btn-default" value="1">ENVIAR</button>
+                                    </div>                                        
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="mauticform[formId]" id="mauticform_trustformprogramanewplus_id" value="7"/>
+                    <input type="hidden" name="mauticform[return]" id="mauticform_trustformprogramanewplus_return" value=""/>
+                    <input type="hidden" name="mauticform[formName]" id="mauticform_trustformprogramanewplus_name" value="trustformprogramanewplus"/>
+                    <input type="hidden" name="form-step-number" id="form-step-number" value="1" />
+                </form>
+                <div class="arrows">
+                    <div class="prev arrows-cls"></div>
+                    <div class="next arrows-cls"></div>
+                </div>
+                <div class="progress">
+                    <div class="bar" style="width: 33.33%;">
+                        <div class="tooltip"><span class="current">1</span> / <span class="total">3</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+ <!-- <div id="content">
+    <div class="container">
+        <div class="page-head">
+            <h1>Confianza</h1>
+            <span class="message"></span>
+        </div>
+    </div>
+    <section class="form-section min-heights">
+        <div class="container">
+            <div id="mauticform_wrapper_trustformprogramaplus" class="mauticform_wrapper calculate">
+                <form autocomplete="off" role="form" method="post" action="https://people.wsuite.com/78221/form/submit?formId=1" id="mauticform_trustformprogramaplus"  data-mautic-form="trustformprogramaplus" enctype="multipart/form-data" novalidate="novalidate" onsubmit="javascript: return checktextareaval();">
+                    <div class="mauticform-innerform">
+                        <div class="numbers">
+                            <span class="current">1</span>/<span class="total">1</span>
+                        </div>
+                        <div class="mauticform-page-wrapper mauticform-page-1 " data-mautic-form-page="1">
+                            <input id="mauticform_input_trustformprogramaplus_email" name="mauticform[email]" value="{{ user.email }}" class="mauticform-hidden" type="hidden" />
+                            <ul class="questions">
+                                <li class="question" data-id="1">
+                                    <div id="mauticform_trustformprogramaplus_el_fin_justifica_los_medi"  data-validate="el_fin_justifica_los_medi" data-validation-type="radiogrp" class="mauticform-row mauticform-radiogrp mauticform-field-1">
+                                        <label  class="mauticform-label name" for="mauticform_radiogrp_radio_el_fin_justifica_los_medi_Siavecestocanimodo1">¿El fin justifica los medios?</label>
+                                        <ul class="options options-radio">
+                                            <li class=" mauticform-radiogrp-row option" data-id="2">
+                                                <label id="mauticform_radiogrp_label_el_fin_justifica_los_medi_Siavecestocanimodo0" for="mauticform_radiogrp_radio_el_fin_justifica_los_medi_Siavecestocanimodo0"  class="mauticform-radiogrp-label">
+                                                    <input class=" mauticform-radiogrp-radio validationcheck" name="mauticform[el_fin_justifica_los_medi][]" id="mauticform_radiogrp_radio_el_fin_justifica_los_medi_Siavecestocanimodo0" type="radio" value="Sí, a veces toca... ni modo" />
+                                                    <span>Sí, a veces toca... ni modo</span>
+                                                    <span class="zmdi zmdi-square-o check-style"></span>
+                                                </label>
+                                            </li>
+                                            <li class=" mauticform-radiogrp-row option" data-id="3">
+                                                <label id="mauticform_radiogrp_label_el_fin_justifica_los_medi_No1" for="mauticform_radiogrp_radio_el_fin_justifica_los_medi_No1"  class="mauticform-radiogrp-label">
+                                                    <input  class="mauticform-radiogrp-radio validationcheck" name="mauticform[el_fin_justifica_los_medi][]" id="mauticform_radiogrp_radio_el_fin_justifica_los_medi_No1" type="radio" value="No" />
+                                                    <span>No</span>
+                                                    <span class="zmdi zmdi-square-o check-style"></span>
+                                                </label>
+                                            </li>
+                                            <li class=" mauticform-radiogrp-row option" data-id="4">
+                                                <label id="mauticform_radiogrp_label_el_fin_justifica_los_medi_Dependedelasituacion2" for="mauticform_radiogrp_radio_el_fin_justifica_los_medi_Dependedelasituacion2"  class="mauticform-radiogrp-label">
+                                                    <input  class="mauticform-radiogrp-radio validationcheck" name="mauticform[el_fin_justifica_los_medi][]" id="mauticform_radiogrp_radio_el_fin_justifica_los_medi_Dependedelasituacion2" type="radio" value="Depende de la situación" />
+                                                    <span>Depende de la situación</span>
+                                                    <span class="zmdi zmdi-square-o check-style"></span>
+                                                </label>
+                                            </li>
+                                        </ul>
+                                         
+                                    </div>
+                                </li>
+                                <li class="question " data-id="5">
+                                    <div id="mauticform_trustformprogramaplus_confio_en_alguien_cuando"  data-validate="confio_en_alguien_cuando" data-validation-type="radiogrp" class="mauticform-row mauticform-radiogrp mauticform-field-2">
+                                        <label  class="mauticform-label" for="mauticform_radiogrp_radio_confio_en_alguien_cuando_Haceloquedicequevahacercumpleconloscompromisos1">Confío en alguien cuando</label>
+                                        <div class="mauticform-radiogrp-row">
+                                            <label id="mauticform_radiogrp_label_confio_en_alguien_cuando_Haceloquedicequevahacercumpleconloscompromisos0" for="mauticform_radiogrp_radio_confio_en_alguien_cuando_Haceloquedicequevahacercumpleconloscompromisos0"  class="mauticform-radiogrp-label">
+                                                <input  class="mauticform-radiogrp-radio validationcheck" name="mauticform[confio_en_alguien_cuando][]" id="mauticform_radiogrp_radio_confio_en_alguien_cuando_Haceloquedicequevahacercumpleconloscompromisos0" type="radio" value="Hace lo que dice que va hacer, cumple con los compromisos" />
+                                                <span>Hace lo que dice que va hacer, cumple con los compromisos</span>
+                                                <span class="zmdi zmdi-square-o check-style"></span>
+                                            </label>
+                                        </div>
+                                        <div class="mauticform-radiogrp-row">
+                                            <label id="mauticform_radiogrp_label_confio_en_alguien_cuando_Guardamissecretoshastalatumba1" for="mauticform_radiogrp_radio_confio_en_alguien_cuando_Guardamissecretoshastalatumba1"  class="mauticform-radiogrp-label">
+                                                <input  class="mauticform-radiogrp-radio validationcheck" name="mauticform[confio_en_alguien_cuando][]" id="mauticform_radiogrp_radio_confio_en_alguien_cuando_Guardamissecretoshastalatumba1" type="radio" value="Guarda mis secretos hasta la tumba" />
+                                                <span>Guarda mis secretos hasta la tumba</span>
+                                                <span class="zmdi zmdi-square-o check-style"></span>
+                                            </label>
+                                        </div>
+                                        <div class="mauticform-radiogrp-row">
+                                            <label id="mauticform_radiogrp_label_confio_en_alguien_cuando_Ofrecedisculpascuandoseequivoca2" for="mauticform_radiogrp_radio_confio_en_alguien_cuando_Ofrecedisculpascuandoseequivoca2"  class="mauticform-radiogrp-label">
+                                                <input  class="mauticform-radiogrp-radio validationcheck" name="mauticform[confio_en_alguien_cuando][]" id="mauticform_radiogrp_radio_confio_en_alguien_cuando_Ofrecedisculpascuandoseequivoca2" type="radio" value="Ofrece disculpas cuando se equivoca" />
+                                                <span>Ofrece disculpas cuando se equivoca</span>
+                                                <span class="zmdi zmdi-square-o check-style"></span>
+                                            </label>
+                                        </div>
+                                        <div class="mauticform-radiogrp-row">
+                                            <label id="mauticform_radiogrp_label_confio_en_alguien_cuando_Todaslasanteriores3" for="mauticform_radiogrp_radio_confio_en_alguien_cuando_Todaslasanteriores3"  class="mauticform-radiogrp-label">
+                                                <input  class="mauticform-radiogrp-radio validationcheck" name="mauticform[confio_en_alguien_cuando][]" id="mauticform_radiogrp_radio_confio_en_alguien_cuando_Todaslasanteriores3" type="radio" value="Todas las anteriores" />
+                                                <span>Todas las anteriores</span>
+                                                <span class="zmdi zmdi-square-o check-style"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                     
+                                </li>
+                                <li class="question " data-id="6">
+                                    <div id="mauticform_trustformprogramaplus_ante_una_embarrada_lo_mej"  class="mauticform-row mauticform-radiogrp mauticform-field-3">
+                                        <label  class="mauticform-label" for="mauticform_radiogrp_radio_ante_una_embarrada_lo_mej_Intentararreglarlascosasyquenadiesedecuenta1">¿Ante una embarrada, ¿lo mejor es?</label>
+                                        <div class="mauticform-radiogrp-row">
+                                            <label id="mauticform_radiogrp_label_ante_una_embarrada_lo_mej_Intentararreglarlascosasyquenadiesedecuenta0" for="mauticform_radiogrp_radio_ante_una_embarrada_lo_mej_Intentararreglarlascosasyquenadiesedecuenta0"  class="mauticform-radiogrp-label">
+                                                <input  class="mauticform-radiogrp-radio validationcheck" name="mauticform[ante_una_embarrada_lo_mej][]" id="mauticform_radiogrp_radio_ante_una_embarrada_lo_mej_Intentararreglarlascosasyquenadiesedecuenta0" type="radio" value="Intentar arreglar las cosas y que nadie se de cuenta." />
+                                                <span>Intentar arreglar las cosas y que nadie se de cuenta.</span>
+                                                <span class="zmdi zmdi-square-o check-style"></span>
+                                            </label>
+                                        </div>
+                                        <div class="mauticform-radiogrp-row">
+                                            <label id="mauticform_radiogrp_label_ante_una_embarrada_lo_mej_Informarloquesucedeyhacertodoloquesepuedaparasolucionar1" for="mauticform_radiogrp_radio_ante_una_embarrada_lo_mej_Informarloquesucedeyhacertodoloquesepuedaparasolucionar1"  class="mauticform-radiogrp-label">
+                                                <input  class="mauticform-radiogrp-radio validationcheck" name="mauticform[ante_una_embarrada_lo_mej][]" id="mauticform_radiogrp_radio_ante_una_embarrada_lo_mej_Informarloquesucedeyhacertodoloquesepuedaparasolucionar1" type="radio" value="Informar lo que sucede y hacer todo lo que se pueda para solucionar." />
+                                                <span>Informar lo que sucede y hacer todo lo que se pueda para solucionar.</span>
+                                                <span class="zmdi zmdi-square-o check-style"></span>
+                                            </label>
+                                        </div>
+                                        <div class="mauticform-radiogrp-row">
+                                            <label id="mauticform_radiogrp_label_ante_una_embarrada_lo_mej_Pedirayudaparaqueotrosquesisabenresuelvan2" for="mauticform_radiogrp_radio_ante_una_embarrada_lo_mej_Pedirayudaparaqueotrosquesisabenresuelvan2"  class="mauticform-radiogrp-label">
+                                                <input  class="mauticform-radiogrp-radio validationcheck" name="mauticform[ante_una_embarrada_lo_mej][]" id="mauticform_radiogrp_radio_ante_una_embarrada_lo_mej_Pedirayudaparaqueotrosquesisabenresuelvan2" type="radio" value="Pedir ayuda para que otros que si saben, resuelvan." />
+                                                <span>Pedir ayuda para que otros que si saben, resuelvan.</span>
+                                                <span class="zmdi zmdi-square-o check-style"></span>
+                                            </label>
+                                        </div>
+                                        <div class="mauticform-radiogrp-row">
+                                            <label id="mauticform_radiogrp_label_ante_una_embarrada_lo_mej_Ofrecerdisculpas3" for="mauticform_radiogrp_radio_ante_una_embarrada_lo_mej_Ofrecerdisculpas3"  class="mauticform-radiogrp-label">
+                                                <input  class="mauticform-radiogrp-radio validationcheck" name="mauticform[ante_una_embarrada_lo_mej][]" id="mauticform_radiogrp_radio_ante_una_embarrada_lo_mej_Ofrecerdisculpas3" type="radio" value="Ofrecer disculpas" />
+                                                <span>Ofrecer disculpas</span>
+                                                <span class="zmdi zmdi-square-o check-style"></span>
+                                            </label>
+                                        </div>
+                                        <span class="mauticform-errormsg" style="display: none;"></span>
+                                    </div>
+                                    
+                                </li>
+                                <li class="question " data-id="7">
+                                    <div id="mauticform_trustformprogramaplus_los_valores_mas_important"  class="mauticform-row mauticform-radiogrp mauticform-field-4">
+                                        <label  class="mauticform-label" for="mauticform_radiogrp_radio_los_valores_mas_important_EticaResponsabilidadeIntegridad1">¿Los valores más importantes en esta organización son?</label>
+                                        <div class="mauticform-radiogrp-row">
+                                            <label id="mauticform_radiogrp_label_los_valores_mas_important_EticaResponsabilidadeIntegridad0" for="mauticform_radiogrp_radio_los_valores_mas_important_EticaResponsabilidadeIntegridad0"  class="mauticform-radiogrp-label">
+                                                <input  class="mauticform-radiogrp-radio validationcheck" name="mauticform[los_valores_mas_important][]" id="mauticform_radiogrp_radio_los_valores_mas_important_EticaResponsabilidadeIntegridad0" type="radio" value="Ética, Responsabilidad e Integridad" />
+                                                <span>Ética, Responsabilidad e Integridad</span>
+                                                <span class="zmdi zmdi-square-o check-style"></span>
+                                            </label>
+                                        </div>
+                                        <div class="mauticform-radiogrp-row">
+                                            <label id="mauticform_radiogrp_label_los_valores_mas_important_ResponsabilidadEticayCercania1" for="mauticform_radiogrp_radio_los_valores_mas_important_ResponsabilidadEticayCercania1"  class="mauticform-radiogrp-label">
+                                                <input  class="mauticform-radiogrp-radio validationcheck" name="mauticform[los_valores_mas_important][]" id="mauticform_radiogrp_radio_los_valores_mas_important_ResponsabilidadEticayCercania1" type="radio" value="Responsabilidad, Etica y Cercania" />
+                                                <span>Responsabilidad, Etica y Cercania</span>
+                                                <span class="zmdi zmdi-square-o check-style"></span>
+                                            </label>
+                                        </div>
+                                        <div class="mauticform-radiogrp-row">
+                                            <label id="mauticform_radiogrp_label_los_valores_mas_important_RespetoEticayResponsabilidad2" for="mauticform_radiogrp_radio_los_valores_mas_important_RespetoEticayResponsabilidad2"  class="mauticform-radiogrp-label">
+                                                <input  class="mauticform-radiogrp-radio validationcheck" name="mauticform[los_valores_mas_important][]" id="mauticform_radiogrp_radio_los_valores_mas_important_RespetoEticayResponsabilidad2" type="radio" value="Respeto, Etica y Responsabilidad" />
+                                                <span>Respeto, Etica y Responsabilidad</span>
+                                                <span class="zmdi zmdi-square-o check-style"></span>
+                                            </label>
+                                        </div>
+                                        <div class="mauticform-radiogrp-row">
+                                            <label id="mauticform_radiogrp_label_los_valores_mas_important_Ningunadelasanteriores3" for="mauticform_radiogrp_radio_los_valores_mas_important_Ningunadelasanteriores3"  class="mauticform-radiogrp-label">
+                                                <input  class="mauticform-radiogrp-radio validationcheck" name="mauticform[los_valores_mas_important][]" id="mauticform_radiogrp_radio_los_valores_mas_important_Ningunadelasanteriores3" type="radio" value="Ninguna de las anteriores" />
+                                                <span>Ninguna de las anteriores</span>
+                                                <span class="zmdi zmdi-square-o check-style"></span>
+                                            </label>
+                                        </div>
+                                        <span class="mauticform-errormsg" style="display: none;"></span>
+                                    </div>
+                                     
+                                </li>
+                                <li class="question" data-id="8">
+                                    <div id="mauticform_trustformprogramaplus_abvierta_del_formulario"  class="mauticform-row mauticform-text mauticform-field-5">
+                                        <label id="mauticform_label_trustformprogramaplus_abvierta_del_formulario" for="mauticform_input_trustformprogramaplus_abvierta_del_formulario" class="mauticform-label">Defina las cualidades que debe tener una persona para generar confianza con su equipo</label>
+                                        <span class="validation-error"></span>
+                                        <textarea id="mauticform_input_trustformprogramaplus_abvierta_del_formulario" name="mauticform[abvierta_del_formulario]" placeholder="Escribe tu respuesta..." class="mauticform-textarea"></textarea>
+                                        <span class="mauticform-errormsg" style="display: none;"></span>
+                                    </div>
+                                    <div id="mauticform_trustformprogramaplus_submit"  class="mauticform-row mauticform-button-wrapper mauticform-field-6">
+                                        <button type="submit" name="mauticform[submit]" id="mauticform_input_trustformprogramaplus_submit" name="mauticform[submit]" value="" class="mauticform-button button-style" value="1">ENVIAR</button>
+                                    </div>
+                                </li>
+                            </ul>
+
+
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="mauticform[formId]" id="mauticform_trustformprogramaplus_id" value="1"/>
+                    <input type="hidden" name="mauticform[return]" id="mauticform_trustformprogramaplus_return" value=""/>
+                    <input type="hidden" name="mauticform[formName]" id="mauticform_trustformprogramaplus_name" value="trustformprogramaplus"/>
+
+                </form>
+                <div class="arrows">
+                    <div class="prev"></div>
+                    <div class="next"></div>
+                </div>
+                <div class="progress">
+                    <div class="bar" style="width: 9.09091%;">
+                        <div class="tooltip"><span class="current">1</span> / <span class="total">11</span></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</div> -->
+
+<script type="text/javascript">    
+/*
+$(function () {    
+    var calculate = new app.calculate({
+        tracking: false,
+        //trackingUrl: "\/calculator\/track",
+        //preview: null,
+    });
+    window.Calculate = calculate;
+    $('.arrows .prev').on('click', function(){
+        $("ul.questions > li").each(function (){
+            if ($(this).hasClass('active')){
+                if($(this).hasClass('completed')){
+                    $('.arrows .next').addClass("show-btn")
+            }else{
+                    $('.arrows .next').removeClass("show-btn")
+            }
+            }
+        })
+    });
+    $('.arrows .next').on('click', function(){
+        $("ul.questions > li").each(function (){
+            if ($(this).hasClass('active')){
+                if($(this).next("li").hasClass('completed filled')){
+                    $('.arrows .next').addClass("show-btn")
+            }else{
+                    $('.arrows .next').removeClass("show-btn")
+            }
+            }
+        })
+    });
+    $(document).on('change','.validationcheck',function () {
+        $("ul.questions > li").each(function (e){
+            if ($(this).hasClass('active')){
+                if($(this).next("li").hasClass('completed filled')){
+                    $('.arrows .next').addClass("show-btn")
+                }else{
+                    $('.arrows .next').removeClass("show-btn")
+                }
+                setTimeout( function(){
+                    if($(this).find("input[type=radio]:checked")){
+                        $('.arrows .next').trigger('click');
+                    } else {
+                        return false;
+                    }
+
+
+                },200)
+            }
+        });
+    });
+});
+*/
+
+/** This section is only needed once per page if manually copying **/
+
+/*if (typeof MauticSDKLoaded == 'undefined') {
+    var MauticSDKLoaded = true;
+    var head = document.getElementsByTagName('head')[0];
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'https://people.wsuite.com/78221/media/js/mautic-form.js';
+    script.onload = function () {
+        MauticSDK.onLoad();
+    };
+    head.appendChild(script);
+    var MauticDomain = 'https://people.wsuite.com';
+    var MauticLang = {
+        'submittingMessage': "Please wait..."
+    }
+}*/
+
+function checktextareaval(){    
+    var textarea = $.trim($('#mauticform_input_trustformprogramaplus_abvierta_del_formulario').val());
+    if(textarea != '' ){
+        var form1Id = $('#mauticform_trustformprogramaplus_id').val();        
+        $.request('onLoginTrackForm1', {
+            data: { form1Id : form1Id },
+            success: function(response) {
+                //console.log(response);
+                swal("Encuesta registrada exitosamente", "", "success");
+                if(response.success = 'success'){
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+        });
+        return true;
+    }else{
+        $('.validation-error').text('Por favor ingrese la respuesta.El espacio vacío no está permitido');
+        return false;
+    }
+}
+
+$('#mauticform_trustformprogramanewplus').submit(function(){    
+    if($('#form-step-number').val() == 3){
+        var validflag = 0;
+        $('.validation').each(function(){
+            var fieldval = $(this).val();
+            if(fieldval == ''){
+                validflag = 0; return false;
+            }else{
+                validflag = 1;
+            }
+        });
+        if(validflag){            
+                var form1Id = $('#mauticform_trustformprogramanewplus_id').val();
+                $.request('onLoginTrackForm2', {
+                    data: { form1Id : form1Id },
+                    success: function(response) {
+                        //console.log(response);
+                        swal("Encuesta registrada exitosamente", "", "success");
+                        if(response.success = 'success'){
+                            setTimeout(function(){
+                                location.reload();
+                            },3000);
+                            
+                            return true;
+                        }else{
+                            return false;
+                        }
+                    }
+                });
+        }else{
+            return false;
+        }
+    }else{
+        return false;
+    }    
+});
+</script>
+
+<script type="text/javascript">
+
+
+                                    
+           
+        $('#mauticform_input_trustformprogramanewplus_cargo').change(function(){
+            $('.cargo_div').hide();
+            if($(this).val() == 'ROL CONTENIDOS'){
+
+                 $('#rol_contenidos').show();
+
+            }else if($(this).val() == 'ROL BEG') {
+                 $('#rol_beg').show();
+
+            }
+            else if($(this).val() == 'ROL GENERACIÓN DEMANDA') {
+                $('#rol_demanda').show();
+                
+            }else if($(this).val() == 'ROL UX') {
+
+                 $('#rol_ux').show();
+                
+            }else if($(this).val() == 'ROL DIGITAL') {
+                $('#rol_digital').show();
+                
+            }
+           
+        });
+
+    $(document).keypress(function(event){
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if(keycode == '13'){
+            var form_step_number = $('#form-step-number').val();
+            if(form_step_number == 1){
+                getfirstformstep(1);             
+            }else if(form_step_number == 2){
+                //getsecondformstep(1); 
+            }else if(form_step_number == 3){
+                //getthirdformstep();
+            }           
+        }
+    });
+
+    $('.first-step').keyup(function(){
+        getfirstformstep(0);        
+    });
+
+    $('.second-step').keyup(function(){
+        getsecondformstep(0);
+    });
+
+    $('.second-step').blur(function(){
+        if($('.second-step').val() !=''){
+            gotonextstep();
+        }        
+    });
+
+    function getfirstformstep(actionflag){
+        var flag = 0;
+        $('.first-step').each(function(){
+            var dataval = $(this).val();
+            if(dataval == ''){
+                $('.arrows-cls').removeClass('active');
+                flag = 0;return false;
+            }else{
+                var id = $(this).attr('id');                
+                if(id == 'mauticform_input_trustformprogramanewplus_correo_empresarial'){
+                    var filter = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+                    if (filter.test(dataval)) {
+                        flag = 1;
+                    }else{
+                        $('.arrows-cls').removeClass('active');
+                    }
+                }                
+            }
+        });        
+        if(flag == 1){
+            getstepform();
+            if(actionflag){                
+                gotonextstep();                 
+            }            
+        }
+    }
+    function gotonextstep(){
+        setTimeout(function(){
+            $('.next').click();
+            $('.mauticform-errormsg').hide();            
+        },500);
+    }
+    
+    function getsecondformstep(actionflag){       
+        var dataval = $('.second-step').val();
+        if(dataval != ''){
+            getstepform();
+            if(actionflag){
+                gotonextstep();
+            }                
+        }else{
+            $('.next').removeClass('active');
+        }
+    }
+
+    function getstepform(){
+        $('.next').addClass('active');
+    }    
+    
+    $('.prev').click(function(){
+        getchangestep(0);
+    });
+    $('.next').click(function(){        
+        getchangestep(1);        
+    });
+
+    var scrollY = 0;
+    var total_section = 3;
+    function getchangestep(frwdnumber){
+        if(frwdnumber){
+            var formstepnumber = parseInt($('#form-step-number').val())  + 1;
+        }else{
+            var formstepnumber = parseInt($('#form-step-number').val())  - 1;
+        }        
+        setTimeout(function(){        
+            $('#form-step-number').val(formstepnumber);                
+            $('.current').text($('#form-step-number').val());
+            $('.arrows-cls').removeClass('active');
+            $('.question').removeClass('active');        
+            if(formstepnumber == 2){
+                if($('.second-step').val() !=''){
+                    $('.next').addClass('active');
+                }            
+                $('.prev').addClass('active');
+            }else if(formstepnumber == 1){
+                $('.next').addClass('active');
+                //$('.prev').removeClass('active');
+            }else if(formstepnumber == 3){
+                //$('.next').removeClass('active');
+                $('.prev').addClass('active');
+            }
+
+            $('.question-'+formstepnumber).addClass('active');
+
+            var current_bar_width = (formstepnumber/total_section * 100) + '%';
+            if(formstepnumber == total_section){
+                $('.bar > .tooltip').css('margin-right','2%');
+            }
+            $('.bar').css('width', current_bar_width);
+
+            scrollY = Math.abs($('ul.questions').offset().top - $('.question-'+formstepnumber).offset().top);
+            var transform = 'translate3d(0, -' + scrollY + 'px, 0)';
+            $('ul.questions').css({
+                transform: transform,
+                '-webkit-transform': transform,
+                'transition': '0.5s ease-in-out'
+            });
+        }, 500);
+    }
+   
+    $('.numberinput').keydown(function(){
+         // Allow only backspace and delete
+         if ( event.keyCode == 46 || event.keyCode == 8 ) {
+            // let it happen, don't do anything
+        }else {
+            // Ensure that it is a number and stop the keypress
+            if (event.keyCode < 48 || event.keyCode > 57 ) {
+                event.preventDefault(); 
+            }   
+        }       
+    });
+
+</script>

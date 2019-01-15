@@ -1,0 +1,10 @@
+name: CiudadesController
+form: $/javier/cpitvc/models/ciudad/fields.yaml
+modelClass: Javier\Cpitvc\Models\Ciudad
+defaultRedirect: javier/cpitvc/ciudadescontroller
+create:
+    redirect: 'javier/cpitvc/ciudadescontroller/update/:id'
+    redirectClose: javier/cpitvc/ciudadescontroller
+update:
+    redirect: javier/cpitvc/ciudadescontroller
+    redirectClose: javier/cpitvc/ciudadescontroller

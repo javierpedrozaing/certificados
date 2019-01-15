@@ -1,0 +1,11 @@
+columns:
+    nombres:
+        label: Nombres
+        type: text
+        searchable: true
+        sortable: true
+    apellidos:
+        label: Apellidos
+        type: text
+        searchable: true
+        sortable: true

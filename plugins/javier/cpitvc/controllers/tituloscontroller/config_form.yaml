@@ -1,0 +1,10 @@
+name: TitulosController
+form: $/javier/cpitvc/models/titulo/fields.yaml
+modelClass: Javier\Cpitvc\Models\Titulo
+defaultRedirect: javier/cpitvc/tituloscontroller
+create:
+    redirect: 'javier/cpitvc/tituloscontroller/update/:id'
+    redirectClose: javier/cpitvc/tituloscontroller
+update:
+    redirect: javier/cpitvc/tituloscontroller
+    redirectClose: javier/cpitvc/tituloscontroller

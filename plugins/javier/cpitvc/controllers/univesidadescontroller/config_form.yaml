@@ -1,0 +1,10 @@
+name: UnivesidadesController
+form: $/javier/cpitvc/models/universidad/fields.yaml
+modelClass: Javier\Cpitvc\Models\Universidad
+defaultRedirect: javier/cpitvc/univesidadescontroller
+create:
+    redirect: 'javier/cpitvc/univesidadescontroller/update/:id'
+    redirectClose: javier/cpitvc/univesidadescontroller
+update:
+    redirect: javier/cpitvc/univesidadescontroller
+    redirectClose: javier/cpitvc/univesidadescontroller

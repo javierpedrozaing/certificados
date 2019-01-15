@@ -1,0 +1,131 @@
+tabs:
+    fields:
+        nombres:
+            label: Nombres
+            span: left
+            type: text
+            tab: Personal
+        apellidos:
+            label: Apellidos
+            span: right
+            type: text
+            tab: Personal
+        identificacion:
+            label: Identificación
+            span: left
+            type: number
+            tab: Personal
+        ciudad:
+            label: Ciudad
+            nameFrom: nombre
+            descriptionFrom: description
+            span: auto
+            type: relation
+            tab: Personal
+        direccionpersona:
+            label: Dirección
+            span: left
+            type: text
+            tab: Personal
+        telefono:
+            label: Teléfono
+            span: right
+            type: number
+            tab: Personal
+        celular:
+            label: Celular
+            span: left
+            type: number
+            tab: Personal
+        email:
+            label: Email
+            span: right
+            type: text
+            tab: Personal
+        web:
+            label: Web
+            span: left
+            type: text
+            tab: Personal
+        img:
+            label: 'Imagen certificado'
+            mode: file
+            useCaption: true
+            thumbOptions:
+                mode: crop
+                extension: auto
+            span: right
+            type: fileupload
+            tab: Personal
+        matriculado:
+            label: Matriculado
+            span: auto
+            type: text
+            tab: Profesional
+        numeromatricula:
+            label: 'Número de matrícula'
+            span: right
+            type: text
+            tab: Profesional
+        resolucion_nacional:
+            label: 'Resolución nacional'
+            span: left
+            type: text
+            tab: Profesional
+        fecha_resolucion_acional:
+            label: 'Fecha resolución nacional'
+            mode: date
+            span: auto
+            type: datepicker
+            tab: Profesional
+        resolucion_seccional:
+            label: 'Resolución seccional'
+            span: left
+            type: text
+            tab: Profesional
+        fecha_resolucion_seccional:
+            label: 'Fecha resolución seccional'
+            mode: date
+            span: right
+            type: datepicker
+            tab: Profesional
+        tarjeta:
+            label: Tarjeta
+            span: left
+            type: text
+            tab: Profesional
+        estado:
+            label: Estado
+            options:
+                activo: Activo
+                inactivo: Inactivo
+            span: auto
+            type: dropdown
+            tab: Profesional
+        sancionado:
+            label: Sancionado
+            options:
+                - 'No'
+                - Si
+            span: left
+            type: balloon-selector
+            tab: Profesional
+        titulo:
+            label: Título
+            nameFrom: titulo
+            descriptionFrom: description
+            span: right
+            type: relation
+            tab: Profesional
+        universidad:
+            label: Universidad
+            nameFrom: nombre
+            descriptionFrom: description
+            span: left
+            type: relation
+            tab: Profesional
+        fecha_final_generacion:
+            label: 'Fecha última generación de certificado'
+            span: right
+            type: text
+            tab: Profesional

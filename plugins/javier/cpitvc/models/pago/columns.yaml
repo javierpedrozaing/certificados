@@ -1,0 +1,15 @@
+columns:
+    idtransaccion:
+        label: 'Transacción id'
+        type: number
+        searchable: true
+        sortable: true
+    estado_transaccion:
+        label: Estado
+        type: text
+        searchable: true
+        sortable: true
+    ingeniero_id:
+        label: Ingeniero
+        type: text
+        relation: ingeniero

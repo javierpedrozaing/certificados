@@ -1,0 +1,27 @@
+<form id="resetPassword" onsubmit="$(this).request('onCustomRestorePassword', {
+                                      beforeSend: function(){
+                                                //$('#loading_image_gif').show();
+                                      },       
+                                      success: function (data) {
+                                          console.log(data.success);
+                                          //$('#loading_image_gif').hide();
+                                          if(data.success == true){
+                                            $('.showmsg').addClass('alert-success').html(data.response).show();
+                                          }else{
+                                            $('.showmsg').addClass('alert-danger').html(data.response).show();
+                                          }
+                                      },
+                                      error: function (jqXHR, textStatus, errorThrown) {
+                                          console.log(errorThrown);
+                                      },
+                                      complete: function (jqXHR, textStatus) {
+                                          document.getElementById('EmailUserDocument').reset()
+                                      }
+                                  });
+                                  return false;">
+    <div class="showmsg"></div>
+    <div class="form-input-custom">
+        <input name="email" type="email" class="form-control" id="userRestoreEmail" placeholder="Verificar Correo electrónico">
+    </div>
+    <button type="submit" class="button-style" onclick="resetpassword();">Restaurar Contraseña</button>
+</form>

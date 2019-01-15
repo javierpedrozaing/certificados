@@ -1,0 +1,10 @@
+name: PagosController
+form: $/javier/cpitvc/models/pago/fields.yaml
+modelClass: Javier\Cpitvc\Models\Pago
+defaultRedirect: javier/cpitvc/pagoscontroller
+create:
+    redirect: 'javier/cpitvc/pagoscontroller/update/:id'
+    redirectClose: javier/cpitvc/pagoscontroller
+update:
+    redirect: javier/cpitvc/pagoscontroller
+    redirectClose: javier/cpitvc/pagoscontroller

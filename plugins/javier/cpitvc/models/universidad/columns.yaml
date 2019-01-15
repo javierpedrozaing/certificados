@@ -1,0 +1,6 @@
+columns:
+    nombre:
+        label: Universidad
+        type: text
+        searchable: true
+        sortable: true

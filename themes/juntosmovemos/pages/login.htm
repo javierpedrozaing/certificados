@@ -1,0 +1,203 @@
+title = "Login"
+url = "/"
+layout = "juntosmovemos"
+is_hidden = 0
+
+
+==
+<?php
+use Renatio\DynamicPDF\Classes\PDF;
+
+use Javier\Cpitvc\Models\Ingeniero;
+
+use Javier\Cpitvc\Models\Pago;
+
+function onStart(){
+  
+}
+
+function onValidateCodigo($codigo){
+    // validación de codigo en estado aprobado por 3 meses
+    $creationDate = null;
+    $pago = Pago::where('idtransaccion', '=', $codigo)->first();
+
+    if(!empty($pago)){
+     $creationDate = $pago->created_at;
+    }else{
+    return false;
+    }
+    $currentDate = date("m");
+    
+    $timeOff = $currentDate - $creationDate->format("m"); // convertir a entero para hacer operación
+
+    if($timeOff > 3){
+        return false;
+    }else{
+    //dd($creationDate->month, $currentDate);
+        return true;
+    }
+    
+}
+
+
+function updateStatePago($pago){
+    $pago->estado_transaccion  = "00"; 
+    $pago->save();
+    
+}
+
+function onLogin(){
+
+   $cedula = $_POST['cedula'];
+   $codigo = $_POST['codigo'];    
+   $email = $_POST['email'];    
+    
+    if(strlen($cedula) > 0){
+    $ingeniero = Ingeniero::where('identificacion', '=', $cedula)->first();
+
+        if (!empty($ingeniero)) {
+
+            if (strlen($email) > 0 ){
+                if ($ingeniero->email != $email){
+                    return "el email es invalido";
+                }
+            }else{
+            return "el campo email no puede ser vacio";
+            }            
+
+            if (strlen($codigo) > 0) {
+                $codigovalido = $this->onValidateCodigo($codigo);
+
+                if ($codigovalido) {
+                    $pago = Pago::where('ingeniero_id', '=', $ingeniero->id)->where('idtransaccion', '=', $codigo)->where('estado_transaccion', 4)->first();                    
+                }else{
+                    return "el codigo de transferencia o referencia de pago ingresado a caducado o es incorrecto";
+                }
+                
+            }else{
+                return "ingrese el codigo de transferencia o referencia de pago";
+            }
+            
+        }else{
+            return "No se encuentra registrado en la base de datos.";
+        }
+    
+    }else{
+        return "ingrese su cedula de ciudadania";
+    }
+
+    if (!empty($pago)) {
+        // aqui generamos el pdf lo guardamos en el sistema y lo enviamos adjunto por correo
+        $templateCode = 'cpitvc'; // unique code of the template
+        $fecha_expedicion = date("Y-m-d H:i:s");
+        $fecha_vigencia = date('Y-m-d', strtotime("+3 months", strtotime($fecha_expedicion)));
+        $dias = date('d');
+        $mes = date('m');
+        $ano = date('Y');
+        $file = Ingeniero::where('id', '=', 3)->first()->img;
+        $data = ['nombres' => $ingeniero->nombres, 'apellidos' => $ingeniero->apellidos, 'identificacion' => $ingeniero->identificacion,  'titulo' => $ingeniero->titulo->titulo, 'matricula' => $ingeniero->numeromatricula, 'resolucion' => $ingeniero->resolucion_nacional, 'fecha_resolucion' => $ingeniero->fecha_resolucion_acional, 'universidad' => $ingeniero->universidad->nombre, 'fecha_expedicion' => $fecha_expedicion, 'fecha_vigencia' => $fecha_vigencia, 'dias' => $dias, 'mes' => $mes, 'ano' => $ano, 'file' => $file, 'email' => $ingeniero->email];        
+        $namePdf = $ingeniero->identificacion.".pdf";        
+        $pdfGenerated = PDF::loadTemplate('cpitvc', $data)->setOptions(['isRemoteEnabled' => true])->save($namePdf)->stream();
+        
+        
+
+        Mail::send('certificado', $data , function ($message) {
+            $message->to($_POST["email"]);    
+            $message->attach($_POST["cedula"].".pdf");
+        });
+
+        $this->updateStatePago($pago);
+        return "success";
+
+
+    }else{
+        return "El codigo de transferencia o referencia de pago no es correcto o a caducado";
+    }
+
+}
+?>
+==
+
+<div id="content" class="win-height-loign">
+    <section class="section-block">
+        <div class="container-fluid ">
+            <div class="row">
+                <div class="logo">
+                    <h2 style="text-align:center;">CPITVC</h2>
+                    <h3 style="text-align:center;">- DESCARGA DE CERTIFICADOS -</h3>
+                </div>
+                <div class="form-login">                    
+                    <form data-request="onLogin" id="loginForm" data-request-success="confirm(data);">
+                        <div class="form-conent">
+                            <h1 class="text-center login-title">Bienvenido</h1>
+                            <p class="text-center">Ingresa para tener acceso a tu certificado</p>
+                            <div class="account-wall">
+                                <form class="form-signin">
+                                    <div class="showmsg"></div>
+                                    <div class="form-input-custom">
+                                        <input type="text" name="cedula" id="userSigninLogin" class="form-control" placeholder="Cédula de ciudadania" autofocus>
+                                    </div>
+                                    <div class="form-input-custom">		
+                                        <input type="text" name="codigo" id="userSigninPassword" class="form-control " placeholder="número de pago">
+                                    </div>
+                                    <div class="form-input-custom">		
+                                        <input type="email" name="email" id="userSigninPassword" class="form-control " placeholder="Email">
+                                    </div>
+                                    <button class="button-style" type="submit" onclick="validatelogin();">GENERAR CERTIFICADO</button>
+                                </form>
+                            </div>
+                            <!--
+                            <div class="need-help text-center">
+                                <a href="#" class="">¿No puedes conectarte?</a>
+                                <a href="{{ url('/reset-password') }}" class="reset-password text-underline">Retrablecer contraseña</a>
+                            </div>
+                            -->
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<script type="text/javascript">
+/*$.validator.addMethod("emailID", function(value, element){
+    return this.optional(element) || /^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+\.[a-zA-Z.]{2,5}$/i.test(value); 
+}, "Please enter a valid email address.");
+$.validator.addMethod("Custompassword",function(value,element){
+    return this.optional(element) || /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/i.test(value); 
+},"Passwords are 6-16 characters");*/
+
+function confirm(res){
+
+    if (res.result == "success") {
+        swal("se envio el certificado por correo");
+    }else{
+        console.log("envia email" + res.result);
+        swal(res.result);
+    }
+    
+}
+
+function validatelogin() {
+    $("#loginForm").validate({
+        rules: {
+            "login": {
+                required: true,
+                email: true
+            },
+            "password": {
+                required: true,
+            }
+        },
+        messages: {
+            "login": {
+                required: "Por favor, ingrese un correo electrónico",
+                email: "el correo electrónico es invalido"
+            },
+            "password": {
+                required: "Porfavor ingrese una contraseña",
+            }
+        },
+    });
+}
+</script>

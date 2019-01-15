@@ -1,0 +1,20 @@
+{% if popupData.content_type %}
+<div id="myModal" class="modal fade" role="dialog">
+    <button type="button" class="close" data-dismiss="modal"></button>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                {% if popupData.content_type == 'video' %}
+                <div class="modal-video">
+                    <iframe width="860" height="415" src="http://www.youtube.com/embed/{{ geturl.getYoutubeID(popupData.video_external_link) }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                </div>
+                {% elseif popupData.content_type == 'bigimage'%}
+                <div class="modal-image">
+                    <img src="{{ popupData.image_banner|media }}" alt="">
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}

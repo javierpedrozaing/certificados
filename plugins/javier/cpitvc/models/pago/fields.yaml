@@ -1,0 +1,20 @@
+tabs:
+    fields:
+        idtransaccion:
+            label: 'Número de pago'
+            span: left
+            type: number
+            tab: 'Tab 1'
+        ingeniero:
+            label: Ingeniero
+            nameFrom: nombres
+            descriptionFrom: nombres
+            select: 'CONCAT(nombres, " ", apellidos)'
+            span: right
+            type: relation
+            tab: 'Tab 1'
+        estado_transaccion:
+            label: 'Estado Transacción'
+            span: left
+            type: text
+            tab: 'Tab 1'

@@ -1,0 +1,62 @@
+a,
+button,
+.btn,
+.icon-bar,
+#nav,
+.arrow-icon,
+.arrow-icon em{
+	-webkit-transition:all 0.3s ease-in-out;
+	-moz-transition:all 0.3s ease-in-out;
+	-o-transition:all 0.3s ease-in-out;
+	transition:all 0.3s ease-in-out;
+}
+
+
+
+.navbar-toggle.collapsed .top-bar {
+	-webkit-transform: rotate(0);
+	-o-transform: rotate(0);
+	transform: rotate(0);
+}
+.navbar-toggle.collapsed .middle-bar {
+	opacity: 1;
+}
+.navbar-toggle.collapsed .bottom-bar {
+	-webkit-transform: rotate(0);
+	-o-transform: rotate(0);
+	transform: rotate(0);
+}
+
+.top-bar {
+	-webkit-transform: rotate(45deg);
+	-o-transform: rotate(45deg);
+	transform: rotate(45deg);
+	
+	-webkit-transform-origin: 5px 5px 0;
+	-o-transform-origin: 5px 5px 0;
+	transform-origin: 5px 5px 0;
+}
+.middle-bar {
+	opacity: 0;
+}
+.bottom-bar {
+	-webkit-transform: rotate(-45deg);
+	-o-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+	
+	-webkit-transform-origin: 6px -2px 0;
+	-o-transform-origin: 6px -2px 0;
+	transform-origin: 6px -2px 0;
+}
+
+.navbar-nav .dropdown.active .arrow-icon em{
+	transform: rotate(90deg);
+}
+
+@media (min-width: 768px) {
+	.thank-block{
+		-webkit-transform: translate(-50%,-50%);
+		-moz-transform: translate(-50%,-50%);
+		transform: translate(-50%,-50%);
+	}
+}

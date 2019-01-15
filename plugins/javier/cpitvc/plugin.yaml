@@ -1,0 +1,32 @@
+plugin:
+    name: 'javier.cpitvc::lang.plugin.name'
+    description: 'javier.cpitvc::lang.plugin.description'
+    author: javier
+    icon: oc-icon-adjust
+    homepage: ''
+navigation:
+    main-menu-ingeniero:
+        label: Ingenieros
+        url: javier/cpitvc/ingenierocontroller
+        icon: icon-group
+        sideMenu:
+            side-menu-ciudad:
+                label: Ciudades
+                url: javier/cpitvc/ciudadescontroller
+                icon: icon-arrows-alt
+            side-menu-universidades:
+                label: Universidades
+                url: javier/cpitvc/univesidadescontroller
+                icon: icon-university
+            side-menu-titulos:
+                label: Títulos
+                url: javier/cpitvc/tituloscontroller
+                icon: icon-calendar-o
+    main-menu-pagos:
+        label: Pagos
+        url: javier/cpitvc/pagoscontroller
+        icon: icon-money
+    main-menu-historial:
+        label: Historial
+        url: /
+        icon: icon-align-left
