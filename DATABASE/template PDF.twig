@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <style type="text/css" media="screen">
+            {{ css|raw }}
+        </style>
+    </head>
+    <body style="background: url({{ background_img }}) cover no-repeat;">
+  
+
+        <div class="content">
+            <p>El Director Ejecutivo, en uso de las facultades estatutarias del Concejo Profesional de
+            Ingeniería de Transporte y Vías de Colombia creado por la ley 33 de 1980 y la ley 842 de
+            2002.</p>
+
+            <h2>HACE CONSTAR</h2>
+
+            <p>
+                Que {{nombres}} {{apellidos}} identificado(a) con la Cédula de Ciudadanía No {{identificacion}}, figura matriculado(a) como {{titulo}} bajo el número de matrícula {{matricula}}, según resolución {{resolucion}} del {{fecha_resolucion}}, expedida por el Consejo Profesional de Ingeniería de Transportes y Vías de Colombia, con base en el título conferido por la {{universidad}}
+
+            </p>
+
+            <p> Que la Matrícula se encuentra vigente.</p>
+            <p>Que el (la) ingeniero(a) no registra antecedentes displinarios en el ejercicio profesional.</p>
+            <p>Que el presente certificado tiene una vigencia hasta la fecha {{fecha_vigencia}} </p>
+            <p>Se expide en Bogotá D.C, a los {{dias}} dias del mes {{ mes}} del {{ ano}} </p>
+
+
+            <p>
+                Si el certificado es solicitado por una persona diferente al titular, este no podra ser utilizado para presentarlo en hojas de vida sin autorización del ingeniero, según lo contemplado en la ley 842 de 2003, articulo 53, literal D. 
+            </p>
+
+            <p>Este certificado se expide con base en la ley 842 de 2003, artículo 6, parágrafo único.</p>
+
+        </div>
+
+ 
+        {{ content_html|raw }}
+    </body>
+</html>
