@@ -98,7 +98,7 @@ function onLogin(){
         $file = $ingeniero->img_certificado; // no es necesario quitar
         //$file = "http://localhost:8000/storage/app/media/certificados_consejo.png";
 
-        $data = ['nombres' => $ingeniero->nombres, 'apellidos' => $ingeniero->apellidos, 'identificacion' => $ingeniero->identificacion,  'titulo' => $ingeniero->titulo->titulo, 'matricula' => $ingeniero->numeromatricula, 'resolucion' => $ingeniero->resolucion_nacional, 'fecha_resolucion' => $ingeniero->fecha_resolucion_acional, 'universidad' => $ingeniero->universidad->nombre, 'fecha_expedicion' => $fecha_expedicion, 'fecha_vigencia' => $fecha_vigencia, 'dias' => $dias, 'mes' => $mes, 'ano' => $ano, 'background_img' => $file, 'email' => $ingeniero->email];        
+        $data = ['nombres' => $ingeniero->nombres, '{apellidos}' => $ingeniero->apellidos, 'identificacion' => $ingeniero->identificacion,  'titulo' => $ingeniero->titulo->titulo, 'matricula' => $ingeniero->numeromatricula, 'resolucion' => $ingeniero->resolucion_nacional, 'fecha_resolucion' => $ingeniero->fecha_resolucion_acional, 'universidad' => $ingeniero->universidad->nombre, 'fecha_expedicion' => $fecha_expedicion, 'fecha_vigencia' => $fecha_vigencia, 'dias' => $dias, 'mes' => $mes, 'ano' => $ano, 'background_img' => $file, 'email' => $ingeniero->email];        
         $namePdf = $ingeniero->identificacion.".pdf";        
         $pdfGenerated = PDF::loadTemplate('cpitvc', $data)->setOptions(['isRemoteEnabled' => true])->save($namePdf)->stream();
         
