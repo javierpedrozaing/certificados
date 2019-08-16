@@ -75,3 +75,9 @@
 1.0.26:
     - 'Updated table javier_cpitvc_ingeniero'
     - builder_table_update_javier_cpitvc_ingeniero_13.php
+1.0.27:
+    - 'Updated table javier_cpitvc_pago'
+    - builder_table_update_javier_cpitvc_pago_6.php
+1.0.28:
+    - 'Updated table javier_cpitvc_ingeniero'
+    - builder_table_update_javier_cpitvc_ingeniero_14.php

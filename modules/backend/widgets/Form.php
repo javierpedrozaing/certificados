@@ -159,7 +159,10 @@ class Form extends WidgetBase
      */
     protected function loadAssets()
     {
-        $this->addJs('js/october.form.js', 'core');
+        $this->addJs('js/october.form.js', [
+            'build' => 'core',
+            'cache'  => 'false'
+        ]);
     }
 
     /**
@@ -240,7 +243,7 @@ class Form extends WidgetBase
     public function renderField($field, $options = [])
     {
         $this->prepareVars();
-        
+
         if (is_string($field)) {
             if (!isset($this->allFields[$field])) {
                 throw new ApplicationException(Lang::get(
@@ -405,7 +408,6 @@ class Form extends WidgetBase
          * If an array of fields is supplied, update specified fields individually.
          */
         if (($updateFields = post('fields')) && is_array($updateFields)) {
-
             foreach ($updateFields as $field) {
                 if (!isset($this->allFields[$field])) {
                     continue;
@@ -446,6 +448,10 @@ class Form extends WidgetBase
         $eventResults = $this->fireSystemEvent('backend.form.refresh', [$result], false);
 
         foreach ($eventResults as $eventResult) {
+            if (!is_array($eventResult)) {
+                continue;
+            }
+
             $result = $eventResult + $result;
         }
 
@@ -679,18 +685,22 @@ class Form extends WidgetBase
     public function addFields(array $fields, $addToArea = null)
     {
         foreach ($fields as $name => $config) {
-
             $fieldObj = $this->makeFormField($name, $config);
             $fieldTab = is_array($config) ? array_get($config, 'tab') : null;
 
-            /*
-             * Check that the form field matches the active context
-             */
+            // Check that the form field matches the active context
             if ($fieldObj->context !== null) {
                 $context = is_array($fieldObj->context) ? $fieldObj->context : [$fieldObj->context];
                 if (!in_array($this->getContext(), $context)) {
                     continue;
                 }
+            }
+
+            // Apply the field name to the validation engine
+            $attrName = implode('.', HtmlHelper::nameToArray($fieldObj->fieldName));
+
+            if ($this->model && method_exists($this->model, 'setValidationAttributeName')) {
+                $this->model->setValidationAttributeName($attrName, $fieldObj->label);
             }
 
             $this->allFields[$name] = $fieldObj;
@@ -789,6 +799,7 @@ class Form extends WidgetBase
             $field->context = $fieldContext;
         }
 
+        $attrName = implode('.', HtmlHelper::nameToArray($field->fieldName));
         $field->arrayName = $this->arrayName;
         $field->idPrefix = $this->getId();
 
@@ -832,15 +843,6 @@ class Form extends WidgetBase
         $field->value = $this->getFieldValue($field);
 
         /*
-         * Apply the field name to the validation engine
-         */
-        $attrName = implode('.', HtmlHelper::nameToArray($field->fieldName));
-
-        if ($this->model && method_exists($this->model, 'setValidationAttributeName')) {
-            $this->model->setValidationAttributeName($attrName, $field->label);
-        }
-
-        /*
          * Check model if field is required
          */
         if ($field->required === null && $this->model && method_exists($this->model, 'isAttributeRequired')) {
@@ -868,8 +870,8 @@ class Form extends WidgetBase
          * Get field options from model
          */
         $optionModelTypes = ['dropdown', 'radio', 'checkboxlist', 'balloon-selector'];
-        if (in_array($field->type, $optionModelTypes, false)) {
 
+        if (in_array($field->type, $optionModelTypes, false)) {
             /*
              * Defer the execution of option data collection
              */
@@ -934,6 +936,7 @@ class Form extends WidgetBase
         $widgetConfig->previewMode = $this->previewMode;
         $widgetConfig->model = $this->model;
         $widgetConfig->data = $this->data;
+        $widgetConfig->parentForm = $this;
 
         $widgetName = $widgetConfig->widget;
         $widgetClass = $this->widgetManager->resolveFormWidget($widgetName);
@@ -953,7 +956,9 @@ class Form extends WidgetBase
         if (isset($field->config['options'])) {
             $field->options(function () use ($field) {
                 $fieldOptions = $field->config['options'];
-                if ($fieldOptions === true) $fieldOptions = null;
+                if ($fieldOptions === true) {
+                    $fieldOptions = null;
+                }
                 $fieldOptions = $this->getOptionsFromModel($field, $fieldOptions);
                 return $fieldOptions;
             });
@@ -1070,11 +1075,27 @@ class Form extends WidgetBase
             $field = $this->allFields[$field];
         }
 
-        $defaultValue = !$this->model->exists
-            ? trans($field->getDefaultFromData($this->data))
+        $defaultValue = $this->shouldFetchDefaultValues()
+            ? $field->getDefaultFromData($this->data)
             : null;
 
-        return $field->getValueFromData($this->data, $defaultValue);
+        return $field->getValueFromData(
+            $this->data,
+            is_string($defaultValue) ? trans($defaultValue) : $defaultValue
+        );
+    }
+
+    /**
+     * Checks if default values should be taken from data.
+     * This should be done when model exists or when explicitly configured
+     */
+    protected function shouldFetchDefaultValues()
+    {
+        $enableDefaults = object_get($this->config, 'enableDefaults');
+        if ($enableDefaults === false) {
+            return false;
+        }
+        return !$this->model->exists || $enableDefaults;
     }
 
     /**
@@ -1148,7 +1169,6 @@ class Form extends WidgetBase
              */
             $parts = HtmlHelper::nameToArray($field->fieldName);
             if (($value = $this->dataArrayGet($data, $parts)) !== null) {
-
                 /*
                  * Number fields should be converted to integers
                  */
@@ -1165,6 +1185,11 @@ class Form extends WidgetBase
          */
         foreach ($this->formWidgets as $field => $widget) {
             $parts = HtmlHelper::nameToArray($field);
+
+            if ((isset($widget->config->disabled) && $widget->config->disabled)
+                || (isset($widget->config->hidden) && $widget->config->hidden)) {
+                continue;
+            }
 
             $widgetValue = $widget->getSaveValue($this->dataArrayGet($result, $parts));
             $this->dataArraySet($result, $parts, $widgetValue);
@@ -1233,7 +1258,6 @@ class Form extends WidgetBase
          * Refer to the model method or any of its behaviors
          */
         if (!is_array($fieldOptions) && !$fieldOptions) {
-
             try {
                 list($model, $attribute) = $field->resolveModelAttribute($this->model, $field->fieldName);
             }
