@@ -1,0 +1,14 @@
+# This is a sample build configuration for Docker.
+# Check our guides at https://confluence.atlassian.com/x/O1toN for more examples.
+# Only use spaces to indent your .yml configuration.
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+image: samueldebruyn/debian-git
+
+pipelines:
+  default:
+   - step:
+      script:
+        - apt-get update
+        - apt-get -qq install git-ftp
+        - git ftp init --user $FTPUSER --passwd $FTPPSW ftp.cpitvc.gov.co
