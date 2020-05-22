@@ -54,11 +54,11 @@ return [
 
         'mysql' => [
             'driver'    => 'mysql',
-            'host'      => '127.0.0.1',
-            'port'      => 3306,
-            'database'  => 'certificados',
-            'username'  => 'root',
-            'password'  => '12345678',
+            'host'      => 'localhost',
+            'port'      => '',
+            'database'  => 'cpitvcgo_certificados',
+            'username'  => 'cpitvcgo_certi',
+            'password'  => '%4Yyof5UBo=f',
             'charset'   => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
             'prefix'    => '',

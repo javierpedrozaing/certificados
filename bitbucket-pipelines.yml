@@ -11,4 +11,5 @@ pipelines:
       script:
         - apt-get update
         - apt-get -qq install git-ftp
-        - git ftp init --user $FTPUSER --passwd $FTPPSW ftp.cpitvc.gov.co
+        - git ftp push --user $FTPUSER --passwd $FTPPSW ftp.cpitvc.gov.co
+        - composer install
