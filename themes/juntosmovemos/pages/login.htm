@@ -83,6 +83,10 @@ function onLogin() {
         $namePdf = $storagePath . $pdf_file_name;        
         //$pdfGenerated = PDF::loadTemplate('cpitvc', $data)->setOptions(['isRemoteEnabled' => true])->save($namePdf)->stream();
         $pdfGenerated = PDF::loadTemplate('cpitvc', $data)->setOptions(['isRemoteEnabled' => true])->save($namePdf);
+
+        //update count downloads
+        $ingeniero->generocertificado +=1;
+        $ingeniero->save();
         
        /*
         Mail::send('certificado', $data , function ($message) {            
